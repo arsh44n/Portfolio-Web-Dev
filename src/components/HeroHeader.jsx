@@ -17,15 +17,15 @@ export default function HeroHeader({ designer, onOpenAbout, filter, setFilter, t
   }, []);
 
   return (
-    <header className="relative w-full pt-3 sm:pt-4 px-6 md:px-10 pointer-events-auto select-none z-20 shrink-0">
+    <header className="relative w-full pt-2 sm:pt-4 px-4 sm:px-6 md:px-10 pointer-events-auto select-none z-20 shrink-0">
       {/* Top row: Left branding, Center PORTFOLIO, Right Actions */}
       <div className="w-full flex items-center justify-between">
         {/* Top-Left: "WELCOME TO MY" */}
         <div className="flex flex-col">
-          <span className="font-extended text-[11px] sm:text-xs font-black tracking-tight text-[#111111] leading-none">
+          <span className="font-extended text-[10px] sm:text-xs font-black tracking-tight text-[#111111] leading-none">
             WELCOME
           </span>
-          <span className="font-extended text-[11px] sm:text-xs font-black tracking-tight text-[#111111] leading-none mt-0.5">
+          <span className="font-extended text-[10px] sm:text-xs font-black tracking-tight text-[#111111] leading-none mt-0.5">
             TO MY
           </span>
         </div>
@@ -34,8 +34,8 @@ export default function HeroHeader({ designer, onOpenAbout, filter, setFilter, t
         <div className="relative flex items-center justify-center">
           {/* Coral pillar */}
           <div
-            className="absolute w-20 sm:w-28 md:w-32 h-18 sm:h-22 md:h-24 bg-[#EB5038] z-0 shadow-xs pointer-events-none"
-            style={{ top: '-0.5rem' }}
+            className="absolute w-16 sm:w-24 md:w-32 h-14 sm:h-20 md:h-24 bg-[#EB5038] z-0 shadow-xs pointer-events-none"
+            style={{ top: '-0.4rem' }}
           />
 
           {/* Layered kinetic typography */}
@@ -43,23 +43,23 @@ export default function HeroHeader({ designer, onOpenAbout, filter, setFilter, t
             {/* Wireframe Outline Layer 1 */}
             <div
               style={{
-                transform: `translate(${-8 + mousePos.x * 0.4}px, ${-6 + mousePos.y * 0.4}px)`,
+                transform: `translate(${-6 + mousePos.x * 0.3}px, ${-5 + mousePos.y * 0.3}px)`,
               }}
-              className="absolute pointer-events-none select-none font-extended text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-outline opacity-85 leading-none transition-transform duration-100 ease-out"
+              className="absolute pointer-events-none select-none font-extended text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-tight text-outline opacity-85 leading-none transition-transform duration-100 ease-out"
             >
               PORTFOLIO
             </div>
 
             {/* Front Solid Black Lettering */}
-            <h1 className="relative font-extended text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-[#111111] leading-none text-center">
+            <h1 className="relative font-extended text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-tight text-[#111111] leading-none text-center">
               PORTFOLIO
             </h1>
           </div>
         </div>
 
         {/* Top-Right: Filter Pills & "ME" Dossier Button */}
-        <div className="flex items-center gap-3">
-          {/* Quick Filter Switcher */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Quick Filter Switcher (Desktop) */}
           <div className="hidden lg:flex items-center gap-1 p-0.5 bg-[#E2E2E2] rounded-full border border-black/10">
             <button
               onClick={() => setFilter('all')}
@@ -98,12 +98,11 @@ export default function HeroHeader({ designer, onOpenAbout, filter, setFilter, t
           {/* Emblem Eye + "ME" Trigger */}
           <button
             onClick={onOpenAbout}
-            className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#DFDFDF] hover:bg-[#D5D5D5] transition-colors border border-black/10 cursor-pointer"
+            className="group flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-[#DFDFDF] hover:bg-[#D5D5D5] transition-colors border border-black/10 cursor-pointer"
             title="Open Creative Dossier / About (Press A)"
           >
-            {/* Eye Icon SVG */}
             <svg
-              className="w-4 h-4 text-[#111111] group-hover:text-[#EB5038] transition-colors"
+              className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#111111] group-hover:text-[#EB5038] transition-colors"
               viewBox="0 0 36 36"
               fill="none"
             >
@@ -116,7 +115,7 @@ export default function HeroHeader({ designer, onOpenAbout, filter, setFilter, t
               />
               <circle cx="18" cy="18" r="3.2" fill="currentColor" />
             </svg>
-            <span className="font-extended text-[11px] font-black tracking-widest text-[#111111] group-hover:text-[#EB5038]">
+            <span className="font-extended text-[10px] sm:text-[11px] font-black tracking-widest text-[#111111] group-hover:text-[#EB5038]">
               ME
             </span>
           </button>
@@ -124,8 +123,8 @@ export default function HeroHeader({ designer, onOpenAbout, filter, setFilter, t
       </div>
 
       {/* Metadata Row: Designer Name + Micro-Crosshairs + Role */}
-      <div className="w-full flex items-center justify-between pt-2 pb-1 text-[#111111] font-tech text-[9px] sm:text-[10px] tracking-widest uppercase font-semibold border-b border-black/10">
-        <div className="flex items-center gap-2">
+      <div className="w-full flex items-center justify-between pt-1.5 pb-1 text-[#111111] font-tech text-[8px] sm:text-[10px] tracking-widest uppercase font-semibold border-b border-black/10">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           <span className="text-[#111111]/35 font-mono">+</span>
           <span
             onClick={onOpenAbout}
@@ -143,7 +142,7 @@ export default function HeroHeader({ designer, onOpenAbout, filter, setFilter, t
           <span>+</span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           <span className="text-right">{designer.role}</span>
           <span className="text-[#111111]/35 font-mono">+</span>
         </div>
