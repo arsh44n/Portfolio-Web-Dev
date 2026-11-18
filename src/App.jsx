@@ -12,6 +12,34 @@ export default function App() {
   // Start at index 1 so cards recede both above and below on initial view
   const [currentIndex, setCurrentIndex] = useState(1);
 
+  // Responsive device classification (Strictly mounts ONLY ONE physics engine)
+  const [isDesktop, setIsDesktop] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth >= 1024;
+    }
+    return true;
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Preload all project screenshots and avatar textures into memory
+  useEffect(() => {
+    allProjects.forEach((p) => {
+      if (p.image) {
+        const img = new Image();
+        img.src = p.image;
+      }
+    });
+    const avatarImg = new Image();
+    avatarImg.src = './assets/creator_avatar.png';
+  }, []);
+
   const activeProject = allProjects[currentIndex] || allProjects[0];
 
   // About / Dossier Drawer state
@@ -80,11 +108,13 @@ export default function App() {
 
           {/* Right Zone: Vertical 3D Cover Flow Deck (~39% width) */}
           <div className="h-full w-[39%] relative z-10 flex items-center justify-center">
-            <VerticalCoverFlow
-              projects={allProjects}
-              currentIndex={currentIndex}
-              onSelectIndex={setCurrentIndex}
-            />
+            {isDesktop && (
+              <VerticalCoverFlow
+                projects={allProjects}
+                currentIndex={currentIndex}
+                onSelectIndex={setCurrentIndex}
+              />
+            )}
           </div>
         </div>
 
@@ -97,11 +127,13 @@ export default function App() {
 
           {/* Lower Half: Horizontal Cover Flow Carousel */}
           <div className="w-full h-[46%] min-h-0 relative z-10 flex items-center justify-center">
-            <HorizontalCoverFlow
-              projects={allProjects}
-              currentIndex={currentIndex}
-              onSelectIndex={setCurrentIndex}
-            />
+            {!isDesktop && (
+              <HorizontalCoverFlow
+                projects={allProjects}
+                currentIndex={currentIndex}
+                onSelectIndex={setCurrentIndex}
+              />
+            )}
           </div>
         </div>
 

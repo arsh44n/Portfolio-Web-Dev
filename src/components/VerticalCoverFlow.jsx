@@ -17,10 +17,12 @@ export default function VerticalCoverFlow({
   const lastYRef = useRef(0);
   const lastTimeRef = useRef(0);
   const targetPosRef = useRef(currentIndex);
+  const currentIndexRef = useRef(currentIndex);
   const animFrameRef = useRef(null);
 
-  // Sync when parent currentIndex changes externally (e.g. keyboard shortcuts)
+  // Sync when parent currentIndex changes externally without tearing down physics
   useEffect(() => {
+    currentIndexRef.current = currentIndex;
     targetPosRef.current = currentIndex;
   }, [currentIndex]);
 
@@ -57,7 +59,8 @@ export default function VerticalCoverFlow({
 
         // Notify parent when nearest active card changes
         const currentNearest = Math.max(0, Math.min(maxIdx, Math.round(scrollPosRef.current)));
-        if (currentNearest !== currentIndex && Math.abs(scrollPosRef.current - currentNearest) < 0.25) {
+        if (currentNearest !== currentIndexRef.current && Math.abs(scrollPosRef.current - currentNearest) < 0.25) {
+          currentIndexRef.current = currentNearest;
           onSelectIndex(currentNearest);
         }
 
@@ -69,7 +72,7 @@ export default function VerticalCoverFlow({
 
     animFrameRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(animFrameRef.current);
-  }, [projects.length, currentIndex, onSelectIndex]);
+  }, [projects.length, onSelectIndex]);
 
   // Wheel scrubbing with buttery continuous inertia
   const handleWheel = useCallback((e) => {
@@ -112,6 +115,15 @@ export default function VerticalCoverFlow({
 
     lastYRef.current = clientY;
     lastTimeRef.current = now;
+
+    // Real-time synchronization while dragging
+    const maxIdx = Math.max(0, projects.length - 1);
+    const nearest = Math.max(0, Math.min(maxIdx, Math.round(scrollPosRef.current)));
+    if (nearest !== currentIndexRef.current && Math.abs(scrollPosRef.current - nearest) < 0.35) {
+      currentIndexRef.current = nearest;
+      onSelectIndex(nearest);
+    }
+
     setScrollPos(scrollPosRef.current);
   };
 
@@ -125,6 +137,7 @@ export default function VerticalCoverFlow({
   const handleCardClick = (idx) => {
     targetPosRef.current = idx;
     velocityRef.current = (idx - scrollPosRef.current) * 0.15;
+    currentIndexRef.current = idx;
     onSelectIndex(idx);
   };
 

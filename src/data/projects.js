@@ -43,7 +43,7 @@ export const projects = [
     description: "High-conversion luxury perfume storefront with pure fragrance oil telemetry, lasting sillage visualizer, interactive accord selector, and direct checkout.",
     techStack: ["Tailwind CSS", "Interactive Lightbox", "Cart Drawer", "Motion Physics"],
     visualTheme: "indian-celebritie",
-    image: "/assets/projects/indian_celebritie.png",
+    image: "./assets/projects/indian_celebritie.png",
     highlights: ["Sillage duration visualizer", "One-click express checkout", "Curated fragrance lookbook"]
   },
   {
@@ -57,7 +57,7 @@ export const projects = [
     description: "Digital platform for South Delhi's premier pickleball facility. Features floodlit court reservations, tournament schedule fixtures, and player community registration.",
     techStack: ["HTML5", "Tailwind CSS", "JavaScript", "Responsive Design"],
     visualTheme: "battle-park",
-    image: "/assets/projects/battle_park.png",
+    image: "./assets/projects/battle_park.png",
     highlights: ["Interactive court scheduler", "Tournament fixture tables", "Player RSVP flow"]
   },
   {
@@ -71,7 +71,7 @@ export const projects = [
     description: "Specialized equipment storefront featuring paddle carbon flex telemetry, weight-balance comparison matrix, and tournament gear specifications.",
     techStack: ["Tailwind CSS", "JavaScript", "Dynamic Filter", "Cart Drawer"],
     visualTheme: "paddle-store",
-    image: "/assets/projects/paddle_store.png",
+    image: "./assets/projects/paddle_store.png",
     highlights: ["Carbon weave flex comparison", "Tournament weight matrix", "Instant order drawer"]
   },
   {
@@ -85,7 +85,7 @@ export const projects = [
     description: "Regional sports venue discovery platform across Dubai and Abu Dhabi with indoor facility filters, verified club listings, and match booking links.",
     techStack: ["JavaScript", "Tailwind CSS", "Directory Engine", "Geo Filter"],
     visualTheme: "padel-ae",
-    image: "/assets/projects/padel_ae.png",
+    image: "./assets/projects/padel_ae.png",
     highlights: ["Dubai and Abu Dhabi club directory", "Air-conditioned court filters", "Direct matchplay registration"]
   },
   {
@@ -99,7 +99,7 @@ export const projects = [
     description: "Venue management and automation platform powering court booking pipelines, membership management, and club performance telemetry.",
     techStack: ["React", "TypeScript", "Tailwind CSS", "Venue Telemetry"],
     visualTheme: "pickleads",
-    image: "/assets/projects/pickleads.png",
+    image: "./assets/projects/pickleads.png",
     highlights: ["Automated booking pipeline", "Court occupancy dashboard", "Membership telemetry"]
   },
   {
@@ -113,7 +113,7 @@ export const projects = [
     description: "Agency web engine designed with smooth inertial scrolling, cursor proximity illumination, dynamic radial spotlights, and interactive modal capture.",
     techStack: ["React", "GSAP ScrollTrigger", "Lenis Scroll", "Tailwind CSS"],
     visualTheme: "coral-mark",
-    image: "/assets/projects/metaminds.png",
+    image: "./assets/projects/metaminds.png",
     highlights: ["Magnetic cursor interaction", "Smooth inertial scrolling", "Radial spotlight masks"]
   },
   {
@@ -127,7 +127,7 @@ export const projects = [
     description: "Hardware flagship showcase featuring 3D chassis scroll disassembly, active noise cancellation frequency wave simulations, and exploded acoustic view.",
     techStack: ["WebGL", "Three.js", "Canvas Scrubber", "Framer Motion"],
     visualTheme: "aurix-one",
-    image: "/assets/projects/aurix_one.png",
+    image: "./assets/projects/aurix_one.png",
     highlights: ["Scroll 3D chassis explosion", "Active noise cancellation wave", "Aero aluminum enclosure"]
   }
 ];

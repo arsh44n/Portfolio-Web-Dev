@@ -112,13 +112,12 @@ export default function LeftSpecCard({ project }) {
             ref={previewRef}
             className="w-full relative bg-[#0D0D0D] overflow-hidden aspect-[16/10] flex items-start justify-start select-none"
           >
-            {/* Real Desktop Screenshot Background (100% Stable, Instant Paint) */}
+            {/* Real Desktop Screenshot Background (100% Stable, Instant Paint, Cached Texture) */}
             {project.image && (
               <img
-                key={project.id}
                 src={project.image}
                 alt={project.title}
-                className="w-full h-full object-cover object-top pointer-events-none select-none transition-opacity duration-300"
+                className="w-full h-full object-cover object-top pointer-events-none select-none"
                 loading="eager"
               />
             )}

@@ -48,9 +48,9 @@ export default function CenterAvatar({ onOpenAbout }) {
         {/* The 3D Character Cutout Image */}
         <div className="relative w-48 sm:w-56 md:w-64 lg:w-72 h-[380px] sm:h-[440px] md:h-[480px] flex items-end justify-center">
           <img
-            src="assets/creator_avatar.png"
+            src="./assets/creator_avatar.png"
             onError={(e) => {
-              e.currentTarget.src = 'assets/avatar_raw.jpg';
+              e.currentTarget.src = './assets/avatar_raw.jpg';
             }}
             alt="Creator 3D Avatar"
             className="w-full h-full object-contain object-bottom drop-shadow-[0_16px_28px_rgba(0,0,0,0.25)] transition-transform duration-300 group-hover:scale-103"
