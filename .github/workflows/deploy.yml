@@ -33,7 +33,9 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Build Production Bundle
-        run: bun run build
+        run: |
+          bun run build
+          cp docs/index.html docs/404.html
 
       - name: Setup Pages Configuration
         uses: actions/configure-pages@v4
@@ -42,7 +44,7 @@ jobs:
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: './docs'
         continue-on-error: true
 
       - name: Deploy to GitHub Pages (Actions)
@@ -54,5 +56,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./docs
           publish_branch: gh-pages
