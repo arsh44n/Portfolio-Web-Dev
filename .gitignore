@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Temporary frames & large debug caches
+frames/
+temp_frames/
+extracted_frames/
+
+# System and logs
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
+
+# Environment
+.env
+.env.local

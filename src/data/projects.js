@@ -1,0 +1,180 @@
+/**
+ * ============================================================================
+ * PORTFOLIO DATA ARCHITECTURE
+ * ============================================================================
+ * Easily customize your portfolio projects, status (published on GitHub vs
+ * yet to be published), links, imagery, and personal details.
+ */
+
+export const designerProfile = {
+  name: "CUONG NGUYEN",
+  role: "MULTIMEDIA DESIGNER",
+  secondaryRole: "CREATIVE TECHNOLOGIST & INTERACTION ARCHITECT",
+  location: "TOKYO / REMOTE",
+  availability: "AVAILABLE FOR 2026 COMMISSIONS",
+  github: "https://github.com",
+  email: "hello@cuongnguyen.design",
+  bio: "Creative technologist pioneering the intersection of Swiss typographic rigor, kinetic physics engines, and immersive 60fps web applications. Transforming complex technical architectures into tactile visual experiences.",
+  stats: [
+    { label: "PUBLISHED REPOS", value: "14+" },
+    { label: "FRAME RATE TARGET", value: "120 FPS" },
+    { label: "CLIENT REACH", value: "GLOBAL" },
+    { label: "EXPERIENCE", value: "6+ YEARS" },
+  ],
+  skills: [
+    "Swiss Editorial Systems",
+    "React & Framer Motion",
+    "WebGL / Three.js Shaders",
+    "Kinetic Typography",
+    "Design Token Architecture",
+    "Creative Direction"
+  ]
+};
+
+export const projects = [
+  {
+    id: "neural-iris",
+    title: "NEURAL IRIS SHADER",
+    category: "CREATIVE CODING / WEBGL",
+    status: "published", // 'published' | 'upcoming'
+    badge: "PUBLISHED ON GITHUB",
+    accentColor: "#3B82F6",
+    link: "https://github.com/example/neural-iris-shader",
+    githubUrl: "https://github.com/example/neural-iris-shader",
+    liveUrl: "https://neural-iris.live",
+    year: "2025",
+    tagline: "Bio-luminescent generative ocular simulation rendered in real-time GLSL.",
+    description: "An interactive fragment shader exploring procedural flower-iris optics, noise vector fields, and organic pupil dilation responsive to audio frequencies and cursor proximity.",
+    techStack: ["WebGL", "GLSL Shaders", "Three.js", "WebAudio API"],
+    visualTheme: "cosmic-eye",
+    previewUrl: "assets/work-1.webp",
+    metrics: "60 FPS GLSL Engine • 4.8k Stars on GitHub"
+  },
+  {
+    id: "metaminds-luxury",
+    title: "METAMINDS CYBERNETIC",
+    category: "ENTERPRISE AUTOMATION & LUXURY UX",
+    status: "published",
+    badge: "PUBLISHED ON GITHUB",
+    accentColor: "#EB5038",
+    link: "https://github.com/example/metaminds-studio",
+    githubUrl: "https://github.com/example/metaminds-studio",
+    liveUrl: "https://metaminds.studio",
+    year: "2025",
+    tagline: "Ultra-premium cybernetic dark luxury web engine for elite AI agencies.",
+    description: "Architected with Lenis smooth inertial scrolling, 120fps magnetic cursor tag system, dynamic radial cursor spotlights, glowing gradient-mask cards, and an interactive conversion drawer.",
+    techStack: ["React", "Tailwind CSS", "GSAP ScrollTrigger", "Lenis Scroll"],
+    visualTheme: "coral-mark",
+    previewUrl: "assets/work-2.avif",
+    metrics: "99/100 Lighthouse Performance • Custom Motion Physics"
+  },
+  {
+    id: "dvs-portrait-lab",
+    title: "DVS X2X4 STUDIO",
+    category: "IDENTITY & ART DIRECTION",
+    status: "published",
+    badge: "PUBLISHED ON GITHUB",
+    accentColor: "#111111",
+    link: "https://github.com/example/dvs-x2x4-editorial",
+    githubUrl: "https://github.com/example/dvs-x2x4-editorial",
+    liveUrl: "https://dvs-x2x4.studio",
+    year: "2025",
+    tagline: "Monochrome brutalist identity system and high-contrast digital lookbook.",
+    description: "Minimalist editorial direction blending technical telemetry stamps, Swiss grid crosshairs, and custom variable font kinematics inspired by avant-garde European publication design.",
+    techStack: ["Next.js", "Framer Motion", "Typography System", "Vercel"],
+    visualTheme: "monochrome-portrait",
+    previewUrl: "",
+    metrics: "Featured on Awwwards Site of the Day nominee"
+  },
+  {
+    id: "polestar-spec",
+    title: "POLESTAR 1:1 CYBER",
+    category: "AUTOMOTIVE TELEMETRY HUD",
+    status: "published",
+    badge: "PUBLISHED ON GITHUB",
+    accentColor: "#FFFFFF",
+    textColor: "#111111",
+    link: "https://github.com/example/polestar-telemetry-hud",
+    githubUrl: "https://github.com/example/polestar-telemetry-hud",
+    liveUrl: "https://polestar-1to1.design",
+    year: "2025",
+    tagline: "White paper spec sheet and interactive 3D electric hypercar visualizer.",
+    description: "An ultra-precision technical showcase combining high-contrast mechanical typography, dynamic torque telemetry dials, aerodynamic particle flow simulations, and full 360-degree exploded chassis inspection.",
+    techStack: ["Three.js", "React Three Fiber", "Tailwind CSS", "GLTF Pipeline"],
+    visualTheme: "polestar-spec",
+    previewUrl: "",
+    metrics: "Zero latency WebGL • 1:1 Scale CAD Conversion"
+  },
+  {
+    id: "casino-royale",
+    title: "CASINO ROYALE 007",
+    category: "CINEMATIC NARRATIVE",
+    status: "published",
+    badge: "PUBLISHED ON GITHUB",
+    accentColor: "#D97706",
+    link: "https://github.com/example/casino-royale-noir",
+    githubUrl: "https://github.com/example/casino-royale-noir",
+    liveUrl: "https://casino-royale-007.design",
+    year: "2024",
+    tagline: "Noir typographic immersion and interactive title sequence tribute.",
+    description: "A dark cinematic showcase featuring kaleidoscopic circular lace silhouettes, kinetic split-type text revelations, and spatial audio soundscapes recorded from mechanical card shufflers and roulette wheels.",
+    techStack: ["GSAP", "Howler.js", "CSS Masking", "Canvas 2D"],
+    visualTheme: "casino-royale",
+    previewUrl: "",
+    metrics: "FWA of the Day Winner • 180k Unique Sessions"
+  },
+  {
+    id: "spatial-vision-engine",
+    title: "SPATIAL VISION OS",
+    category: "EXPERIMENTAL SPATIAL UI",
+    status: "upcoming",
+    badge: "YET TO BE PUBLISHED // IN LAB",
+    accentColor: "#06B6D4",
+    link: "https://github.com/example/spatial-vision-os",
+    githubUrl: "https://github.com/example/spatial-vision-os",
+    liveUrl: "#lab-preview",
+    year: "2026",
+    tagline: "Next-gen spatial interface exploring zero-latency gaze physics and 3D depth windows.",
+    description: "Currently in private research & development. Simulates spatial light refractions, dynamic frosted glass chromatic aberrations, and tactile micro-vibration feedback mapped to cursor coordinates.",
+    techStack: ["WebGPU", "WGSL Shaders", "React 19", "Spatial Audio"],
+    visualTheme: "spatial-vision",
+    previewUrl: "",
+    metrics: "Private Beta • 95% Benchmarked Ready"
+  },
+  {
+    id: "autonomous-agent-hub",
+    title: "AGENTIC REASONING LAB",
+    category: "AUTONOMOUS AI ORCHESTRATION",
+    status: "upcoming",
+    badge: "YET TO BE PUBLISHED // IN LAB",
+    accentColor: "#10B981",
+    link: "https://github.com/example/agentic-reasoning-hub",
+    githubUrl: "https://github.com/example/agentic-reasoning-hub",
+    liveUrl: "#lab-preview",
+    year: "2026",
+    tagline: "Multi-agent autonomous cognitive orchestrator with real-time graph visualization.",
+    description: "A developer workbench for spawning, monitoring, and debugging cooperative LLM subagents. Features live DAG node orchestration, token cost telemetry, and automated unit test self-repair loops.",
+    techStack: ["TypeScript", "LangGraph", "FastAPI", "React Flow"],
+    visualTheme: "neural-mesh",
+    previewUrl: "",
+    metrics: "Research Stage • Scheduled Q2 2026 Release"
+  },
+  {
+    id: "kinetic-audio-synth",
+    title: "FREQUENCY KINETIC SYNTH",
+    category: "AUDIO VISUAL EXPERIMENT",
+    status: "upcoming",
+    badge: "YET TO BE PUBLISHED // IN LAB",
+    accentColor: "#A855F7",
+    link: "https://github.com/example/frequency-kinetic-synth",
+    githubUrl: "https://github.com/example/frequency-kinetic-synth",
+    liveUrl: "#lab-preview",
+    year: "2026",
+    tagline: "Sub-bass polyphonic oscillator driving kinetic typography deformations.",
+    description: "Translates low-frequency sound harmonics directly into typographic kerning, weight modulation, and fluid vertex displacement in the browser canvas.",
+    techStack: ["Tone.js", "WebAudio API", "SVG Morphing", "Framer Motion"],
+    visualTheme: "audio-synth",
+    previewUrl: "",
+    metrics: "Internal Alpha • Audio Reactive Physics"
+  }
+];
