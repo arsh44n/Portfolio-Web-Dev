@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-export default function HeroHeader({ designer, onPrev, onNext, onOpenAbout }) {
-  // Track mouse coordinates for kinetic parallax on the outlined typographic layers
+export default function HeroHeader({ designer, onOpenAbout, filter, setFilter, totalProjects }) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -18,159 +17,137 @@ export default function HeroHeader({ designer, onPrev, onNext, onOpenAbout }) {
   }, []);
 
   return (
-    <header className="relative w-full pt-5 md:pt-7 px-8 md:px-14 pointer-events-auto select-none z-20">
-      {/* =====================================================================
-          TOP BAR: "WELCOME TO MY" (Left) + Minimalist Geometric Emblem (Right)
-          ===================================================================== */}
-      <div className="w-full flex items-start justify-between">
-        {/* Top-Left Stacked Label */}
+    <header className="relative w-full pt-3 sm:pt-4 px-6 md:px-10 pointer-events-auto select-none z-20 shrink-0">
+      {/* Top row: Left branding, Center PORTFOLIO, Right Actions */}
+      <div className="w-full flex items-center justify-between">
+        {/* Top-Left: "WELCOME TO MY" */}
         <div className="flex flex-col">
-          <span className="font-extended text-xs sm:text-sm md:text-[15px] font-black tracking-tight text-[#111111] leading-none">
+          <span className="font-extended text-[11px] sm:text-xs font-black tracking-tight text-[#111111] leading-none">
             WELCOME
           </span>
-          <span className="font-extended text-xs sm:text-sm md:text-[15px] font-black tracking-tight text-[#111111] leading-none mt-1">
+          <span className="font-extended text-[11px] sm:text-xs font-black tracking-tight text-[#111111] leading-none mt-0.5">
             TO MY
           </span>
         </div>
 
-        {/* Top-Right Minimalist Geometric Emblem (Eye inside reticle) */}
-        <button
-          onClick={onOpenAbout}
-          className="group relative p-1.5 focus:outline-none cursor-pointer"
-          title="About the Designer (Press A)"
-        >
-          <div className="relative w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center">
+        {/* Center: Coral-Red Vertical Pillar + Kinetic PORTFOLIO */}
+        <div className="relative flex items-center justify-center">
+          {/* Coral pillar */}
+          <div
+            className="absolute w-20 sm:w-28 md:w-32 h-18 sm:h-22 md:h-24 bg-[#EB5038] z-0 shadow-xs pointer-events-none"
+            style={{ top: '-0.5rem' }}
+          />
+
+          {/* Layered kinetic typography */}
+          <div className="relative z-10 flex items-center justify-center py-1">
+            {/* Wireframe Outline Layer 1 */}
+            <div
+              style={{
+                transform: `translate(${-8 + mousePos.x * 0.4}px, ${-6 + mousePos.y * 0.4}px)`,
+              }}
+              className="absolute pointer-events-none select-none font-extended text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-outline opacity-85 leading-none transition-transform duration-100 ease-out"
+            >
+              PORTFOLIO
+            </div>
+
+            {/* Front Solid Black Lettering */}
+            <h1 className="relative font-extended text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-[#111111] leading-none text-center">
+              PORTFOLIO
+            </h1>
+          </div>
+        </div>
+
+        {/* Top-Right: Filter Pills & "ME" Dossier Button */}
+        <div className="flex items-center gap-3">
+          {/* Quick Filter Switcher */}
+          <div className="hidden lg:flex items-center gap-1 p-0.5 bg-[#E2E2E2] rounded-full border border-black/10">
+            <button
+              onClick={() => setFilter('all')}
+              className={`px-2.5 py-0.5 rounded-full font-tech text-[8px] font-bold tracking-widest uppercase transition-all cursor-pointer ${
+                filter === 'all'
+                  ? 'bg-[#111111] text-white shadow-xs'
+                  : 'text-[#111111]/70 hover:text-black'
+              }`}
+            >
+              ALL ({totalProjects})
+            </button>
+            <button
+              onClick={() => setFilter('published')}
+              className={`px-2.5 py-0.5 rounded-full font-tech text-[8px] font-bold tracking-widest uppercase transition-all cursor-pointer flex items-center gap-1 ${
+                filter === 'published'
+                  ? 'bg-[#111111] text-white shadow-xs'
+                  : 'text-[#111111]/70 hover:text-black'
+              }`}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              GITHUB
+            </button>
+            <button
+              onClick={() => setFilter('upcoming')}
+              className={`px-2.5 py-0.5 rounded-full font-tech text-[8px] font-bold tracking-widest uppercase transition-all cursor-pointer flex items-center gap-1 ${
+                filter === 'upcoming'
+                  ? 'bg-[#EB5038] text-white shadow-xs'
+                  : 'text-[#111111]/70 hover:text-black'
+              }`}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#EB5038]" />
+              LAB
+            </button>
+          </div>
+
+          {/* Emblem Eye + "ME" Trigger */}
+          <button
+            onClick={onOpenAbout}
+            className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#DFDFDF] hover:bg-[#D5D5D5] transition-colors border border-black/10 cursor-pointer"
+            title="Open Creative Dossier / About (Press A)"
+          >
+            {/* Eye Icon SVG */}
             <svg
-              className="w-full h-full text-[#111111] transition-transform duration-300 group-hover:scale-110"
+              className="w-4 h-4 text-[#111111] group-hover:text-[#EB5038] transition-colors"
               viewBox="0 0 36 36"
               fill="none"
             >
-              {/* Outer reticle circle */}
-              <circle cx="18" cy="18" r="14" stroke="currentColor" strokeWidth="1.8" />
-              {/* Eye contour */}
+              <circle cx="18" cy="18" r="14" stroke="currentColor" strokeWidth="2" />
               <path
                 d="M8.5 18 C11.5 11.5 24.5 11.5 27.5 18 C24.5 24.5 11.5 24.5 8.5 18 Z"
                 stroke="currentColor"
-                strokeWidth="1.6"
+                strokeWidth="1.8"
                 fill="none"
               />
-              {/* Center pupil */}
               <circle cx="18" cy="18" r="3.2" fill="currentColor" />
-              {/* Micro crosshairs */}
-              <line x1="18" y1="0.5" x2="18" y2="4.5" stroke="currentColor" strokeWidth="1.6" />
-              <line x1="18" y1="31.5" x2="18" y2="35.5" stroke="currentColor" strokeWidth="1.6" />
-              <line x1="0.5" y1="18" x2="4.5" y2="18" stroke="currentColor" strokeWidth="1.6" />
-              <line x1="31.5" y1="18" x2="35.5" y2="18" stroke="currentColor" strokeWidth="1.6" />
             </svg>
-          </div>
-        </button>
-      </div>
-
-      {/* =====================================================================
-          TOP MICRO-GRID CROSSHAIRS (+) ROW
-          ===================================================================== */}
-      <div className="relative w-full h-5 my-1 hidden sm:flex items-center justify-between text-[#111111]/35 font-mono text-xs select-none">
-        <span className="pl-1">+</span>
-        <span className="pl-[30%]+">+</span>
-        <span className="pr-[30%]+">+</span>
-        <span className="pr-1">+</span>
-      </div>
-
-      {/* =====================================================================
-          CENTER HERO TITLE: Bold Coral-Red Vertical Pillar + Kinetic PORTFOLIO
-          ===================================================================== */}
-      <div className="relative w-full flex flex-col items-center justify-center my-1 sm:my-2">
-        {/* Coral-Red Vertical Pillar (#EB5038) */}
-        <div
-          className="absolute w-24 sm:w-28 md:w-36 lg:w-44 h-48 sm:h-56 md:h-64 bg-[#EB5038] z-0 shadow-sm pointer-events-none transition-all duration-700"
-          style={{ top: '-1.8rem' }}
-        />
-
-        {/* Kinetic Layered Typography: "PORTFOLIO" */}
-        <div className="relative z-10 w-full flex items-center justify-center overflow-visible py-2">
-          {/* Wireframe Outline Duplicate Layer 1 (Shifted Top-Left) */}
-          <div
-            style={{
-              transform: `translate(${-14 + mousePos.x * 0.5}px, ${-12 + mousePos.y * 0.5}px)`,
-            }}
-            className="absolute pointer-events-none select-none font-extended text-5xl sm:text-7xl md:text-8xl lg:text-[115px] xl:text-[138px] font-black tracking-tight text-outline opacity-85 leading-none transition-transform duration-150 ease-out"
-          >
-            PORTFOLIO
-          </div>
-
-          {/* Wireframe Outline Duplicate Layer 2 (Shifted Bottom-Right) */}
-          <div
-            style={{
-              transform: `translate(${12 - mousePos.x * 0.4}px, ${10 - mousePos.y * 0.4}px)`,
-            }}
-            className="absolute pointer-events-none select-none font-extended text-5xl sm:text-7xl md:text-8xl lg:text-[115px] xl:text-[138px] font-black tracking-tight text-outline-thin opacity-55 leading-none transition-transform duration-150 ease-out"
-          >
-            PORTFOLIO
-          </div>
-
-          {/* Front Solid Deep Charcoal/Black Lettering */}
-          <h1 className="relative font-extended text-5xl sm:text-7xl md:text-8xl lg:text-[115px] xl:text-[138px] font-black tracking-tight text-[#111111] leading-none text-center drop-shadow-sm">
-            PORTFOLIO
-          </h1>
+            <span className="font-extended text-[11px] font-black tracking-widest text-[#111111] group-hover:text-[#EB5038]">
+              ME
+            </span>
+          </button>
         </div>
       </div>
 
-      {/* =====================================================================
-          METADATA ROW: Name (Left) + Technical Crosshairs + Role (Right)
-          ===================================================================== */}
-      <div className="relative w-full max-w-6xl mx-auto flex items-center justify-between pt-1 sm:pt-2 pb-1 text-[#111111] font-tech text-[10px] sm:text-xs tracking-widest uppercase font-semibold">
-        {/* Left: Designer Name */}
-        <div className="flex items-center gap-3">
+      {/* Metadata Row: Designer Name + Micro-Crosshairs + Role */}
+      <div className="w-full flex items-center justify-between pt-2 pb-1 text-[#111111] font-tech text-[9px] sm:text-[10px] tracking-widest uppercase font-semibold border-b border-black/10">
+        <div className="flex items-center gap-2">
           <span className="text-[#111111]/35 font-mono">+</span>
           <span
-            className="hover:text-[#EB5038] transition-colors cursor-pointer"
             onClick={onOpenAbout}
+            className="hover:text-[#EB5038] transition-colors cursor-pointer"
           >
             {designer.name}
           </span>
         </div>
 
-        {/* Center: Subtle Crosshairs */}
-        <div className="hidden md:flex items-center gap-12 text-[#111111]/35 font-mono text-[11px]">
+        <div className="hidden md:flex items-center gap-6 text-[#111111]/35 font-mono text-[10px]">
           <span>+</span>
+          <span className="font-tech text-[8px] tracking-[0.25em] text-[#111111]/50">
+            DUAL-STAGE INTERACTIVE WORKBENCH
+          </span>
           <span>+</span>
         </div>
 
-        {/* Right: Role */}
-        <div className="flex items-center gap-3">
-          <span className="text-right">
-            {designer.role}
-          </span>
+        <div className="flex items-center gap-2">
+          <span className="text-right">{designer.role}</span>
           <span className="text-[#111111]/35 font-mono">+</span>
         </div>
       </div>
-
-      {/* =====================================================================
-          FAR-LEFT & FAR-RIGHT DIRECTIONAL ARROWS (◀ ▶)
-          ===================================================================== */}
-      {/* Pinned Left Arrow */}
-      <button
-        onClick={onPrev}
-        className="fixed left-3 md:left-6 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center gap-1.5 p-3 text-[#111111] hover:text-[#EB5038] hover:-translate-x-1 transition-all cursor-pointer group"
-        title="Previous Project (Left Arrow Key)"
-      >
-        <span className="text-xl md:text-2xl font-black">◀</span>
-        <span className="font-tech text-[8px] tracking-widest text-[#111111]/45 group-hover:text-[#EB5038]">
-          PREV
-        </span>
-      </button>
-
-      {/* Pinned Right Arrow */}
-      <button
-        onClick={onNext}
-        className="fixed right-3 md:right-6 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center gap-1.5 p-3 text-[#111111] hover:text-[#EB5038] hover:translate-x-1 transition-all cursor-pointer group"
-        title="Next Project (Right Arrow Key)"
-      >
-        <span className="text-xl md:text-2xl font-black">▶</span>
-        <span className="font-tech text-[8px] tracking-widest text-[#111111]/45 group-hover:text-[#EB5038]">
-          NEXT
-        </span>
-      </button>
     </header>
   );
 }
