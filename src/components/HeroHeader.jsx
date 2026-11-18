@@ -21,7 +21,7 @@ export default function HeroHeader({ designer, onOpenAbout, filter, setFilter, t
       {/* Top row: Left branding, Center PORTFOLIO, Right Actions */}
       <div className="w-full flex items-center justify-between">
         {/* Top-Left: "WELCOME TO MY" */}
-        <div className="flex flex-col">
+        <div className="hidden sm:flex flex-col">
           <span className="font-extended text-[10px] sm:text-xs font-black tracking-tight text-[#111111] leading-none">
             WELCOME
           </span>
@@ -29,13 +29,14 @@ export default function HeroHeader({ designer, onOpenAbout, filter, setFilter, t
             TO MY
           </span>
         </div>
+        <div className="sm:hidden font-mono text-xs text-black/30">+</div>
 
         {/* Center: Coral-Red Vertical Pillar + Kinetic PORTFOLIO */}
         <div className="relative flex items-center justify-center">
           {/* Coral pillar */}
           <div
-            className="absolute w-16 sm:w-24 md:w-32 h-14 sm:h-20 md:h-24 bg-[#EB5038] z-0 shadow-xs pointer-events-none"
-            style={{ top: '-0.4rem' }}
+            className="absolute w-12 sm:w-20 md:w-28 lg:w-32 h-11 sm:h-16 md:h-20 lg:h-24 bg-[#EB5038] z-0 shadow-xs pointer-events-none"
+            style={{ top: '-0.3rem' }}
           />
 
           {/* Layered kinetic typography */}
@@ -43,15 +44,15 @@ export default function HeroHeader({ designer, onOpenAbout, filter, setFilter, t
             {/* Wireframe Outline Layer 1 */}
             <div
               style={{
-                transform: `translate(${-6 + mousePos.x * 0.3}px, ${-5 + mousePos.y * 0.3}px)`,
+                transform: `translate(${-4 + mousePos.x * 0.25}px, ${-3 + mousePos.y * 0.25}px)`,
               }}
-              className="absolute pointer-events-none select-none font-extended text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-tight text-outline opacity-85 leading-none transition-transform duration-100 ease-out"
+              className="absolute pointer-events-none select-none font-extended text-lg sm:text-3xl md:text-5xl lg:text-7xl font-black tracking-tight text-outline opacity-85 leading-none transition-transform duration-100 ease-out"
             >
               PORTFOLIO
             </div>
 
             {/* Front Solid Black Lettering */}
-            <h1 className="relative font-extended text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-tight text-[#111111] leading-none text-center">
+            <h1 className="relative font-extended text-lg sm:text-3xl md:text-5xl lg:text-7xl font-black tracking-tight text-[#111111] leading-none text-center">
               PORTFOLIO
             </h1>
           </div>
@@ -123,8 +124,8 @@ export default function HeroHeader({ designer, onOpenAbout, filter, setFilter, t
       </div>
 
       {/* Metadata Row: Designer Name + Micro-Crosshairs + Role */}
-      <div className="w-full flex items-center justify-between pt-1.5 pb-1 text-[#111111] font-tech text-[8px] sm:text-[10px] tracking-widest uppercase font-semibold border-b border-black/10">
-        <div className="flex items-center gap-1.5 sm:gap-2">
+      <div className="w-full flex items-center justify-between pt-1 pb-1 text-[#111111] font-tech text-[8px] sm:text-[10px] tracking-widest uppercase font-semibold border-b border-black/10">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <span className="text-[#111111]/35 font-mono">+</span>
           <span
             onClick={onOpenAbout}
@@ -142,8 +143,8 @@ export default function HeroHeader({ designer, onOpenAbout, filter, setFilter, t
           <span>+</span>
         </div>
 
-        <div className="flex items-center gap-1.5 sm:gap-2">
-          <span className="text-right">{designer.role}</span>
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 max-w-[60%] sm:max-w-none">
+          <span className="text-right truncate">{designer.role}</span>
           <span className="text-[#111111]/35 font-mono">+</span>
         </div>
       </div>

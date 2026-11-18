@@ -2,17 +2,17 @@ import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import HeroHeader from './components/HeroHeader';
 import LeftSpecCard from './components/LeftSpecCard';
 import CenterAvatar from './components/CenterAvatar';
-import SweepingArcCarousel from './components/SweepingArcCarousel';
+import VerticalCoverFlow from './components/VerticalCoverFlow';
 import AboutDrawer from './components/AboutDrawer';
 import MicroGrid from './components/MicroGrid';
 import { projects as allProjects, designerProfile } from './data/projects';
 
 export default function App() {
-  // Start with active card 0 centered in the circular arc sweep (~50 degrees)
-  const [carouselAngle, setCarouselAngle] = useState(50);
-
   // Active filter: 'all' | 'published' | 'upcoming'
   const [filter, setFilter] = useState('all');
+
+  // Start at index 1 so there are cards both above (past) and below (upcoming)
+  const [currentIndex, setCurrentIndex] = useState(1);
 
   // Mobile active tab view: 'specs' | 'deck'
   const [mobileTab, setMobileTab] = useState('specs');
@@ -28,45 +28,32 @@ export default function App() {
     return allProjects;
   }, [filter]);
 
-  // Active project displayed in Left Specification Card
-  const [activeProject, setActiveProject] = useState(allProjects[0]);
-
-  // Sync active project if filter changes
+  // Ensure currentIndex stays within bounds when filter changes
   useEffect(() => {
-    if (filteredProjects.length > 0) {
-      const exists = filteredProjects.some((p) => p.id === activeProject?.id);
-      if (!exists) {
-        setActiveProject(filteredProjects[0]);
-      }
+    if (currentIndex >= filteredProjects.length) {
+      setCurrentIndex(Math.max(0, filteredProjects.length - 1));
     }
-  }, [filteredProjects, activeProject]);
+  }, [filteredProjects, currentIndex]);
+
+  const activeProject = filteredProjects[currentIndex] || filteredProjects[0];
 
   // About / Dossier Drawer state
   const [isAboutOpen, setIsAboutOpen] = useState(false);
 
-  // Active project index
-  const currentIndex = useMemo(() => {
-    if (!activeProject) return 0;
-    const idx = filteredProjects.findIndex((p) => p.id === activeProject.id);
-    return idx >= 0 ? idx : 0;
-  }, [activeProject, filteredProjects]);
-
   // Stepping navigation (Next / Prev)
   const handlePrev = useCallback(() => {
-    if (filteredProjects.length === 0) return;
-    const prevIdx = (currentIndex - 1 + filteredProjects.length) % filteredProjects.length;
-    setActiveProject(filteredProjects[prevIdx]);
-    setCarouselAngle((prev) => prev - 36);
-  }, [currentIndex, filteredProjects]);
+    if (currentIndex > 0) {
+      setCurrentIndex((prev) => prev - 1);
+    }
+  }, [currentIndex]);
 
   const handleNext = useCallback(() => {
-    if (filteredProjects.length === 0) return;
-    const nextIdx = (currentIndex + 1) % filteredProjects.length;
-    setActiveProject(filteredProjects[nextIdx]);
-    setCarouselAngle((prev) => prev + 36);
-  }, [currentIndex, filteredProjects]);
+    if (currentIndex < filteredProjects.length - 1) {
+      setCurrentIndex((prev) => prev + 1);
+    }
+  }, [currentIndex, filteredProjects.length]);
 
-  // Keyboard shortcuts
+  // Global Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (isAboutOpen) return;
@@ -118,20 +105,20 @@ export default function App() {
               : 'bg-white/80 text-black/70 hover:bg-white'
           }`}
         >
-          EXPLORE DECK
+          COVER FLOW DECK
         </button>
       </div>
 
       {/* ===================================================================
           STAGE: 3-ZONE BALANCED STAGE
-          1. Left: Specification Card (~36% width)
+          1. Left: Specification Card with Live Hosted Preview (~42% width)
           2. Middle: 3D Character Avatar in transparent PNG (~20% width)
-          3. Right & Mid-Bottom: Sweeping Circular Arc Carousel (~44% width)
+          3. Right: Vertical 3D Cover Flow Stack (~38% width)
           =================================================================== */}
-      <section className="relative flex-1 w-full max-w-[1780px] mx-auto px-4 sm:px-6 md:px-10 py-2 sm:py-3 flex items-center justify-between overflow-hidden">
-        {/* Left Zone: Project Specification Card */}
+      <section className="relative flex-1 w-full max-w-[1800px] mx-auto px-4 sm:px-6 md:px-10 py-2 sm:py-3 flex items-center justify-between overflow-hidden">
+        {/* Left Zone: Project Specification Card with Live Hosted View */}
         <div
-          className={`h-full w-full lg:w-[38%] xl:w-[36%] flex flex-col justify-center z-20 transition-opacity duration-300 ${
+          className={`h-full w-full lg:w-[44%] xl:w-[42%] flex flex-col justify-center z-20 transition-opacity duration-300 ${
             mobileTab === 'specs' ? 'block' : 'hidden lg:flex'
           }`}
         >
@@ -145,28 +132,25 @@ export default function App() {
         </div>
 
         {/* Middle Zone: 3D Character Cutout Avatar */}
-        <div className="hidden lg:flex lg:w-[22%] xl:w-[20%] h-full items-end justify-center z-15 pointer-events-none px-2">
+        <div className="hidden lg:flex lg:w-[18%] xl:w-[20%] h-full items-end justify-center z-15 pointer-events-none px-2">
           <CenterAvatar onOpenAbout={() => setIsAboutOpen(true)} />
         </div>
 
-        {/* Right Zone: Sweeping Circular Arc Carousel */}
+        {/* Right Zone: Vertical 3D Cover Flow Deck */}
         <div
-          className={`h-full w-full lg:w-[40%] xl:w-[44%] relative z-10 transition-opacity duration-300 ${
-            mobileTab === 'deck' ? 'block' : 'hidden lg:block'
+          className={`h-full w-full lg:w-[38%] xl:w-[38%] relative z-10 transition-opacity duration-300 flex items-center justify-center ${
+            mobileTab === 'deck' ? 'block' : 'hidden lg:flex'
           }`}
         >
-          <SweepingArcCarousel
+          <VerticalCoverFlow
             projects={filteredProjects}
-            activeProject={activeProject}
-            onSelectProject={(project) => {
-              setActiveProject(project);
-              // On mobile, auto-switch to specs on card click
+            currentIndex={currentIndex}
+            onSelectIndex={(newIdx) => {
+              setCurrentIndex(newIdx);
               if (window.innerWidth < 1024) {
                 setMobileTab('specs');
               }
             }}
-            carouselAngle={carouselAngle}
-            setCarouselAngle={setCarouselAngle}
           />
         </div>
       </section>
@@ -178,7 +162,7 @@ export default function App() {
           <span>STAGE ACTIVE // 60FPS</span>
         </div>
         <div className="hidden sm:block">
-          SCRUB CIRCULAR ARC FROM MID-RIGHT TO MIDDLE-BOTTOM • CLICK ANY CARD TO INSPECT
+          USE MOUSE WHEEL OR DRAG TO SCROLL VERTICAL COVER FLOW • MIDDLE CARD HIGHLIGHTS SPEC
         </div>
         <div>
           <span>SWISS PRECISION KINETICS</span>
