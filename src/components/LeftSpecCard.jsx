@@ -1,38 +1,35 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ExternalLink, Layers, X, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { ExternalLink, Layers, X, CheckCircle2, ShieldCheck, Play, Eye } from 'lucide-react';
 
 export default function LeftSpecCard({ project }) {
   const [showSpecs, setShowSpecs] = useState(false);
+  const [isInteractive, setIsInteractive] = useState(false);
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const previewRef = useRef(null);
-  const [scale, setScale] = useState(0.38);
+  const [scale, setScale] = useState(0.35);
 
-  // Compute desktop scaling factor based on container width
+  // Reset interactive mode and loading state whenever the active project changes
+  useEffect(() => {
+    setIsInteractive(false);
+    setIframeLoaded(false);
+  }, [project?.id]);
+
+  // Compute desktop scaling factor only when container resizes
   useEffect(() => {
     const updateScale = () => {
       if (previewRef.current) {
         const width = previewRef.current.clientWidth;
         if (width > 0) {
-          setScale(width / 1280);
+          const newScale = width / 1280;
+          setScale(newScale);
         }
       }
     };
 
     updateScale();
-    const ro = new ResizeObserver(updateScale);
-    if (previewRef.current) ro.observe(previewRef.current);
     window.addEventListener('resize', updateScale);
-
-    return () => {
-      ro.disconnect();
-      window.removeEventListener('resize', updateScale);
-    };
+    return () => window.removeEventListener('resize', updateScale);
   }, []);
-
-  // Reset iframe loading state when project changes
-  useEffect(() => {
-    setIframeLoaded(false);
-  }, [project?.id]);
 
   if (!project) return null;
 
@@ -67,8 +64,8 @@ export default function LeftSpecCard({ project }) {
           ===================================================================== */}
       <div className="flex-1 w-full min-h-0 flex flex-col justify-center my-0.5 sm:my-1 overflow-hidden">
         <div className="w-full rounded-lg sm:rounded-xl overflow-hidden border border-black/15 shadow-sm sm:shadow-md flex flex-col bg-white">
-          {/* macOS Desktop Chrome Bar (Clean: 3 dots + Clean Domain Name) */}
-          <div className="h-5 sm:h-7 px-2 sm:px-3 bg-[#EAEAEA] border-b border-black/10 flex items-center justify-between shrink-0 font-tech text-[8px] sm:text-[9px] text-black/70">
+          {/* macOS Desktop Chrome Bar (Clean: 3 dots + Clean Domain Name + Interactive Trigger) */}
+          <div className="h-6 sm:h-7 px-2.5 sm:px-3 bg-[#EAEAEA] border-b border-black/10 flex items-center justify-between shrink-0 font-tech text-[8px] sm:text-[9px] text-black/70">
             <div className="flex items-center gap-1 sm:gap-1.5">
               <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#FF5F56] border border-black/15" />
               <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#FFBD2E] border border-black/15" />
@@ -76,38 +73,58 @@ export default function LeftSpecCard({ project }) {
             </div>
 
             {/* Clean Brand Domain (No full URL exposure) */}
-            <div className="flex items-center gap-1 px-2 sm:px-3 py-0.5 bg-white rounded border border-black/10 font-mono text-[8px] sm:text-[9px] text-black/80 font-medium">
+            <div className="flex items-center gap-1 px-2.5 sm:px-3 py-0.5 bg-white rounded border border-black/10 font-mono text-[8px] sm:text-[9px] text-black/80 font-medium">
               <span className="text-[9px]">🔒</span>
               <span className="truncate">{project.displayUrl || 'portfolio.site'}</span>
             </div>
 
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-0.5 sm:p-1 hover:bg-black/10 rounded transition-colors cursor-pointer text-black/60 hover:text-black"
-              title="Open full website in new tab"
-            >
-              <ExternalLink className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#EB5038]" />
-            </a>
+            {/* Interactive Toggle & External Window Link */}
+            <div className="flex items-center gap-1">
+              {project.liveUrl && project.liveUrl.startsWith('http') && (
+                <button
+                  onClick={() => setIsInteractive((prev) => !prev)}
+                  className={`px-1.5 py-0.5 rounded text-[8px] font-tech font-bold uppercase transition-all cursor-pointer flex items-center gap-1 ${
+                    isInteractive
+                      ? 'bg-[#111111] text-white shadow-xs'
+                      : 'bg-black/5 hover:bg-black/10 text-black/70'
+                  }`}
+                  title={isInteractive ? 'Show Screenshot' : 'Interact with Live Site'}
+                >
+                  {isInteractive ? <Eye className="w-2.5 h-2.5" /> : <Play className="w-2.5 h-2.5 text-[#EB5038]" />}
+                  <span className="hidden sm:inline">{isInteractive ? 'Snapshot' : 'Interact'}</span>
+                </button>
+              )}
+
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-1 hover:bg-black/10 rounded transition-colors cursor-pointer text-black/60 hover:text-black"
+                title="Open live site in new tab"
+              >
+                <ExternalLink className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#EB5038]" />
+              </a>
+            </div>
           </div>
 
           {/* Desktop Scaled Viewport Container (Aspect Ratio 16:10) */}
           <div
             ref={previewRef}
-            className="w-full relative bg-[#0D0D0D] overflow-hidden aspect-[16/10] flex items-start justify-start"
+            className="w-full relative bg-[#0D0D0D] overflow-hidden aspect-[16/10] flex items-start justify-start select-none"
           >
-            {/* Real Desktop Screenshot Background */}
+            {/* Real Desktop Screenshot Background (100% Stable, Instant Paint) */}
             {project.image && (
               <img
+                key={project.id}
                 src={project.image}
                 alt={project.title}
-                className="absolute inset-0 w-full h-full object-cover object-top"
+                className="w-full h-full object-cover object-top pointer-events-none select-none transition-opacity duration-300"
+                loading="eager"
               />
             )}
 
-            {/* Interactive Scaled Desktop Iframe */}
-            {project.liveUrl && project.liveUrl.startsWith('http') && (
+            {/* Optional Interactive Scaled Desktop Iframe (Only loads when user taps Interact) */}
+            {isInteractive && project.liveUrl && project.liveUrl.startsWith('http') && (
               <div
                 style={{
                   width: '1280px',
@@ -115,17 +132,16 @@ export default function LeftSpecCard({ project }) {
                   transform: `scale(${scale})`,
                   transformOrigin: 'top left',
                 }}
-                className={`absolute top-0 left-0 pointer-events-auto transition-opacity duration-300 ${
+                className={`absolute top-0 left-0 pointer-events-auto bg-white transition-opacity duration-300 ${
                   iframeLoaded ? 'opacity-100' : 'opacity-0'
                 }`}
               >
                 <iframe
-                  key={project.id}
+                  key={`${project.id}-interactive`}
                   src={project.liveUrl}
                   title={project.title}
                   className="w-[1280px] h-[800px] border-0"
                   sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                  loading="lazy"
                   onLoad={() => setIframeLoaded(true)}
                 />
               </div>
@@ -142,7 +158,7 @@ export default function LeftSpecCard({ project }) {
           href={project.liveUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2.5 bg-[#111111] hover:bg-black text-white rounded-lg sm:rounded-xl font-tech text-[9px] sm:text-xs tracking-wider uppercase font-bold transition-all hover:-translate-y-0.5 shadow-sm cursor-pointer truncate"
+          className="flex-1 flex items-center justify-center gap-1 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2.5 bg-[#111111] hover:bg-black text-white rounded-lg sm:rounded-xl font-tech text-[9px] sm:text-xs tracking-wider uppercase font-bold transition-all hover:-translate-y-0.5 shadow-sm cursor-pointer truncate"
         >
           <span className="sm:hidden">Visit Site</span>
           <span className="hidden sm:inline">Visit Website</span>
@@ -151,7 +167,7 @@ export default function LeftSpecCard({ project }) {
 
         <button
           onClick={() => setShowSpecs(true)}
-          className="flex-1 flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2.5 bg-white hover:bg-neutral-100 text-[#111111] border border-black/20 rounded-lg sm:rounded-xl font-tech text-[9px] sm:text-xs tracking-wider uppercase font-bold transition-all hover:-translate-y-0.5 shadow-xs cursor-pointer truncate"
+          className="flex-1 flex items-center justify-center gap-1 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2.5 bg-white hover:bg-neutral-100 text-[#111111] border border-black/20 rounded-lg sm:rounded-xl font-tech text-[9px] sm:text-xs tracking-wider uppercase font-bold transition-all hover:-translate-y-0.5 shadow-xs cursor-pointer truncate"
         >
           <Layers className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-[#EB5038] shrink-0" />
           <span className="sm:hidden">Specs</span>
