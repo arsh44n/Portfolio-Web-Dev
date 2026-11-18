@@ -1,8 +1,9 @@
-import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import HeroHeader from './components/HeroHeader';
 import LeftSpecCard from './components/LeftSpecCard';
 import CenterAvatar from './components/CenterAvatar';
 import VerticalCoverFlow from './components/VerticalCoverFlow';
+import HorizontalCoverFlow from './components/HorizontalCoverFlow';
 import AboutDrawer from './components/AboutDrawer';
 import MicroGrid from './components/MicroGrid';
 import { projects as allProjects, designerProfile } from './data/projects';
@@ -10,9 +11,6 @@ import { projects as allProjects, designerProfile } from './data/projects';
 export default function App() {
   // Start at index 1 so cards recede both above and below on initial view
   const [currentIndex, setCurrentIndex] = useState(1);
-
-  // Mobile active tab view: 'specs' | 'deck'
-  const [mobileTab, setMobileTab] = useState('specs');
 
   const activeProject = allProjects[currentIndex] || allProjects[0];
 
@@ -61,74 +59,58 @@ export default function App() {
         onOpenAbout={() => setIsAboutOpen(true)}
       />
 
-      {/* Mobile Tab Switcher (Visible on small screens) */}
-      <div className="lg:hidden w-full px-6 py-1 flex items-center justify-center gap-2 z-30 shrink-0">
-        <button
-          onClick={() => setMobileTab('specs')}
-          className={`px-4 py-1.5 rounded-full font-tech text-[10px] font-bold tracking-widest uppercase transition-all cursor-pointer ${
-            mobileTab === 'specs'
-              ? 'bg-[#111111] text-white shadow-sm'
-              : 'bg-white/80 text-black/70 hover:bg-white'
-          }`}
-        >
-          PROJECT SPECS
-        </button>
-        <button
-          onClick={() => setMobileTab('deck')}
-          className={`px-4 py-1.5 rounded-full font-tech text-[10px] font-bold tracking-widest uppercase transition-all cursor-pointer ${
-            mobileTab === 'deck'
-              ? 'bg-[#EB5038] text-white shadow-sm'
-              : 'bg-white/80 text-black/70 hover:bg-white'
-          }`}
-        >
-          COVER FLOW DECK
-        </button>
-      </div>
-
       {/* ===================================================================
-          STAGE: 3-ZONE BALANCED STAGE
-          1. Left: Specification Card with Live Hosted Preview (~42% width)
-          2. Middle: 3D Character Avatar in transparent PNG (~20% width)
-          3. Right: Vertical 3D Cover Flow Stack (~38% width)
+          STAGE: DUAL-VIEWPORT ARCHITECTURE
+          1. Desktop (lg+): 3-zone balanced stage (Left Preview, Center Avatar, Right Vertical Cover Flow)
+          2. Mobile (<lg): Split view (Upper Half Desktop Preview, Lower Half Horizontal Cover Flow)
           =================================================================== */}
-      <section className="relative flex-1 w-full max-w-[1800px] mx-auto px-4 sm:px-6 md:px-10 py-2 sm:py-3 flex items-center justify-between overflow-hidden">
-        {/* Left Zone: Project Specification Card with Live Hosted View */}
-        <div
-          className={`h-full w-full lg:w-[44%] xl:w-[42%] flex flex-col justify-center z-20 transition-opacity duration-300 ${
-            mobileTab === 'specs' ? 'block' : 'hidden lg:flex'
-          }`}
-        >
-          <LeftSpecCard project={activeProject} />
+      <section className="relative flex-1 w-full max-w-[1800px] mx-auto px-3 sm:px-6 md:px-10 py-1 sm:py-2 md:py-3 overflow-hidden">
+        
+        {/* DESKTOP VIEWPORT (Screen width >= 1024px) */}
+        <div className="hidden lg:flex w-full h-full items-center justify-between">
+          {/* Left Zone: Desktop Preview Card (~42% width) */}
+          <div className="h-full w-[43%] xl:w-[41%] flex flex-col justify-center z-20">
+            <LeftSpecCard project={activeProject} />
+          </div>
+
+          {/* Middle Zone: 3D Character Cutout Avatar (~18% width) */}
+          <div className="w-[18%] xl:w-[20%] h-full flex items-end justify-center z-15 pointer-events-none px-2">
+            <CenterAvatar onOpenAbout={() => setIsAboutOpen(true)} />
+          </div>
+
+          {/* Right Zone: Vertical 3D Cover Flow Deck (~39% width) */}
+          <div className="h-full w-[39%] relative z-10 flex items-center justify-center">
+            <VerticalCoverFlow
+              projects={allProjects}
+              currentIndex={currentIndex}
+              onSelectIndex={setCurrentIndex}
+            />
+          </div>
         </div>
 
-        {/* Middle Zone: 3D Character Cutout Avatar */}
-        <div className="hidden lg:flex lg:w-[18%] xl:w-[20%] h-full items-end justify-center z-15 pointer-events-none px-2">
-          <CenterAvatar onOpenAbout={() => setIsAboutOpen(true)} />
+        {/* MOBILE & TABLET VIEWPORT (Screen width < 1024px) */}
+        <div className="flex lg:hidden flex-col justify-between w-full h-full gap-2 overflow-hidden">
+          {/* Upper Half: Desktop Preview Card */}
+          <div className="w-full h-[54%] min-h-0 flex flex-col justify-center z-20">
+            <LeftSpecCard project={activeProject} />
+          </div>
+
+          {/* Lower Half: Horizontal Cover Flow Carousel */}
+          <div className="w-full h-[46%] min-h-0 relative z-10 flex items-center justify-center">
+            <HorizontalCoverFlow
+              projects={allProjects}
+              currentIndex={currentIndex}
+              onSelectIndex={setCurrentIndex}
+            />
+          </div>
         </div>
 
-        {/* Right Zone: Vertical 3D Cover Flow Deck */}
-        <div
-          className={`h-full w-full lg:w-[38%] xl:w-[38%] relative z-10 transition-opacity duration-300 flex items-center justify-center ${
-            mobileTab === 'deck' ? 'block' : 'hidden lg:flex'
-          }`}
-        >
-          <VerticalCoverFlow
-            projects={allProjects}
-            currentIndex={currentIndex}
-            onSelectIndex={(newIdx) => {
-              setCurrentIndex(newIdx);
-              if (window.innerWidth < 1024) {
-                setMobileTab('specs');
-              }
-            }}
-          />
-        </div>
       </section>
 
       {/* Bottom Minimal Footer */}
-      <footer className="w-full px-6 md:px-10 py-1.5 border-t border-black/10 flex items-center justify-between font-tech text-[9px] text-black/40 uppercase tracking-widest shrink-0">
+      <footer className="w-full px-4 sm:px-6 md:px-10 py-1 sm:py-1.5 border-t border-black/10 flex items-center justify-between font-tech text-[8px] sm:text-[9px] text-black/40 uppercase tracking-widest shrink-0">
         <span className="font-mono text-xs text-black/30">+</span>
-        <span className="font-mono text-[9px] text-black/45 tracking-wider">PORTFOLIO</span>
+        <span className="font-mono text-[8px] sm:text-[9px] text-black/45 tracking-wider">PORTFOLIO</span>
         <span className="font-mono text-xs text-black/30">+</span>
       </footer>
 

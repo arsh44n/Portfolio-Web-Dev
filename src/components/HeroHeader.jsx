@@ -104,7 +104,10 @@ export default function HeroHeader({ designer, onOpenAbout, filter, setFilter, t
         </div>
 
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 max-w-[60%] sm:max-w-none">
-          <span className="text-right truncate">{designer.role}</span>
+          <span className="text-right truncate">
+            <span className="sm:hidden">FOUNDER</span>
+            <span className="hidden sm:inline">{designer.role}</span>
+          </span>
           <span className="text-[#111111]/35 font-mono">+</span>
         </div>
       </div>
