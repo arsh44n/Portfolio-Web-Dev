@@ -6,10 +6,26 @@ export default defineConfig({
   build: {
     outDir: 'docs',
     emptyOutDir: true,
+    rollupOptions: {
+      input: 'index.dev.html'
+    }
   },
-  plugins: [react()],
+  plugins: [
+    react(),
+    {
+      name: 'dev-server-entry',
+      configureServer(server) {
+        server.middlewares.use((req, res, next) => {
+          if (req.url === '/' || req.url === '/index.html') {
+            req.url = '/index.dev.html';
+          }
+          next();
+        });
+      }
+    }
+  ],
   server: {
-    port: 3000,
+    port: 3004,
     open: false,
     host: true
   }
