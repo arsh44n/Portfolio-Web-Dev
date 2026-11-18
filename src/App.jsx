@@ -8,34 +8,13 @@ import MicroGrid from './components/MicroGrid';
 import { projects as allProjects, designerProfile } from './data/projects';
 
 export default function App() {
-  // Active filter: 'all' | 'published' | 'upcoming'
-  const [filter, setFilter] = useState('all');
-
-  // Start at index 1 so there are cards both above (past) and below (upcoming)
+  // Start at index 1 so cards recede both above and below on initial view
   const [currentIndex, setCurrentIndex] = useState(1);
 
   // Mobile active tab view: 'specs' | 'deck'
   const [mobileTab, setMobileTab] = useState('specs');
 
-  // Filtered projects list
-  const filteredProjects = useMemo(() => {
-    if (filter === 'published') {
-      return allProjects.filter((p) => p.status === 'published');
-    }
-    if (filter === 'upcoming') {
-      return allProjects.filter((p) => p.status === 'upcoming');
-    }
-    return allProjects;
-  }, [filter]);
-
-  // Ensure currentIndex stays within bounds when filter changes
-  useEffect(() => {
-    if (currentIndex >= filteredProjects.length) {
-      setCurrentIndex(Math.max(0, filteredProjects.length - 1));
-    }
-  }, [filteredProjects, currentIndex]);
-
-  const activeProject = filteredProjects[currentIndex] || filteredProjects[0];
+  const activeProject = allProjects[currentIndex] || allProjects[0];
 
   // About / Dossier Drawer state
   const [isAboutOpen, setIsAboutOpen] = useState(false);
@@ -48,10 +27,10 @@ export default function App() {
   }, [currentIndex]);
 
   const handleNext = useCallback(() => {
-    if (currentIndex < filteredProjects.length - 1) {
+    if (currentIndex < allProjects.length - 1) {
       setCurrentIndex((prev) => prev + 1);
     }
-  }, [currentIndex, filteredProjects.length]);
+  }, [currentIndex]);
 
   // Global Keyboard shortcuts
   useEffect(() => {
@@ -80,9 +59,6 @@ export default function App() {
       <HeroHeader
         designer={designerProfile}
         onOpenAbout={() => setIsAboutOpen(true)}
-        filter={filter}
-        setFilter={setFilter}
-        totalProjects={allProjects.length}
       />
 
       {/* Mobile Tab Switcher (Visible on small screens) */}
@@ -122,13 +98,7 @@ export default function App() {
             mobileTab === 'specs' ? 'block' : 'hidden lg:flex'
           }`}
         >
-          <LeftSpecCard
-            project={activeProject}
-            currentIndex={currentIndex}
-            totalProjects={filteredProjects.length}
-            onPrev={handlePrev}
-            onNext={handleNext}
-          />
+          <LeftSpecCard project={activeProject} />
         </div>
 
         {/* Middle Zone: 3D Character Cutout Avatar */}
@@ -143,7 +113,7 @@ export default function App() {
           }`}
         >
           <VerticalCoverFlow
-            projects={filteredProjects}
+            projects={allProjects}
             currentIndex={currentIndex}
             onSelectIndex={(newIdx) => {
               setCurrentIndex(newIdx);
@@ -155,18 +125,11 @@ export default function App() {
         </div>
       </section>
 
-      {/* Bottom Footer Status Bar */}
-      <footer className="w-full px-6 md:px-10 py-1.5 border-t border-black/10 flex items-center justify-between font-tech text-[8px] sm:text-[9px] text-black/50 uppercase tracking-widest shrink-0">
-        <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          <span>STAGE ACTIVE // 60FPS</span>
-        </div>
-        <div className="hidden sm:block">
-          USE MOUSE WHEEL OR DRAG TO SCROLL VERTICAL COVER FLOW • MIDDLE CARD HIGHLIGHTS SPEC
-        </div>
-        <div>
-          <span>SWISS PRECISION KINETICS</span>
-        </div>
+      {/* Bottom Minimal Footer */}
+      <footer className="w-full px-6 md:px-10 py-1.5 border-t border-black/10 flex items-center justify-between font-tech text-[9px] text-black/40 uppercase tracking-widest shrink-0">
+        <span className="font-mono text-xs text-black/30">+</span>
+        <span className="font-mono text-[9px] text-black/45 tracking-wider">PORTFOLIO</span>
+        <span className="font-mono text-xs text-black/30">+</span>
       </footer>
 
       {/* About & Creative Dossier Drawer */}

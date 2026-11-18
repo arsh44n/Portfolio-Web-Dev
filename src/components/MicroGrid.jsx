@@ -12,14 +12,6 @@ export default function MicroGrid() {
       {/* Side Center Crosshairs */}
       <div className="absolute top-1/2 left-4 -translate-y-1/2 font-mono text-xs text-black/25">+</div>
       <div className="absolute top-1/2 right-4 -translate-y-1/2 font-mono text-xs text-black/25">+</div>
-
-      {/* Subtle Coordinate Watermarks */}
-      <div className="absolute bottom-6 left-8 hidden md:block font-tech text-[8px] text-black/35 tracking-widest">
-        RADIAL.GRID // R-540.PX
-      </div>
-      <div className="absolute bottom-6 right-8 hidden md:block font-tech text-[8px] text-black/35 tracking-widest">
-        KINETIC 60FPS // SWISS.STD
-      </div>
     </div>
   );
 }

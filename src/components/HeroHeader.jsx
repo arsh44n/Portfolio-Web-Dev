@@ -58,48 +58,12 @@ export default function HeroHeader({ designer, onOpenAbout, filter, setFilter, t
           </div>
         </div>
 
-        {/* Top-Right: Filter Pills & "ME" Dossier Button */}
+        {/* Top-Right: "ME" Dossier Button */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Quick Filter Switcher (Desktop) */}
-          <div className="hidden lg:flex items-center gap-1 p-0.5 bg-[#E2E2E2] rounded-full border border-black/10">
-            <button
-              onClick={() => setFilter('all')}
-              className={`px-2.5 py-0.5 rounded-full font-tech text-[8px] font-bold tracking-widest uppercase transition-all cursor-pointer ${
-                filter === 'all'
-                  ? 'bg-[#111111] text-white shadow-xs'
-                  : 'text-[#111111]/70 hover:text-black'
-              }`}
-            >
-              ALL ({totalProjects})
-            </button>
-            <button
-              onClick={() => setFilter('published')}
-              className={`px-2.5 py-0.5 rounded-full font-tech text-[8px] font-bold tracking-widest uppercase transition-all cursor-pointer flex items-center gap-1 ${
-                filter === 'published'
-                  ? 'bg-[#111111] text-white shadow-xs'
-                  : 'text-[#111111]/70 hover:text-black'
-              }`}
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-              GITHUB
-            </button>
-            <button
-              onClick={() => setFilter('upcoming')}
-              className={`px-2.5 py-0.5 rounded-full font-tech text-[8px] font-bold tracking-widest uppercase transition-all cursor-pointer flex items-center gap-1 ${
-                filter === 'upcoming'
-                  ? 'bg-[#EB5038] text-white shadow-xs'
-                  : 'text-[#111111]/70 hover:text-black'
-              }`}
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-[#EB5038]" />
-              LAB
-            </button>
-          </div>
-
           {/* Emblem Eye + "ME" Trigger */}
           <button
             onClick={onOpenAbout}
-            className="group flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-[#DFDFDF] hover:bg-[#D5D5D5] transition-colors border border-black/10 cursor-pointer"
+            className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#DFDFDF] hover:bg-[#D5D5D5] transition-colors border border-black/10 cursor-pointer"
             title="Open Creative Dossier / About (Press A)"
           >
             <svg
@@ -123,7 +87,7 @@ export default function HeroHeader({ designer, onOpenAbout, filter, setFilter, t
         </div>
       </div>
 
-      {/* Metadata Row: Designer Name + Micro-Crosshairs + Role */}
+      {/* Metadata Row: Designer Name + Micro-Crosshair + Role */}
       <div className="w-full flex items-center justify-between pt-1 pb-1 text-[#111111] font-tech text-[8px] sm:text-[10px] tracking-widest uppercase font-semibold border-b border-black/10">
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <span className="text-[#111111]/35 font-mono">+</span>
@@ -135,11 +99,7 @@ export default function HeroHeader({ designer, onOpenAbout, filter, setFilter, t
           </span>
         </div>
 
-        <div className="hidden md:flex items-center gap-6 text-[#111111]/35 font-mono text-[10px]">
-          <span>+</span>
-          <span className="font-tech text-[8px] tracking-[0.25em] text-[#111111]/50">
-            DUAL-STAGE INTERACTIVE WORKBENCH
-          </span>
+        <div className="hidden md:flex items-center text-[#111111]/35 font-mono text-[10px]">
           <span>+</span>
         </div>
 
